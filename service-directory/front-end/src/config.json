@@ -1,0 +1,4 @@
+{
+    "apiEndpoint": "http://localhost:3002",
+    "gatewayEndpoint": "http://localhost:3006"
+}

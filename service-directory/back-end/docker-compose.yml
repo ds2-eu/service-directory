@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  service-directory-api:
+    image: service-directory-api:1.0.0
+    hostname: service-directory-api
+    container_name: service-directory-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - PORT=3002
+      - SERVER=http://localhost:2502/
+      - SECURITY_ENABLED=false
+      - AUTH_URL=http://localhost:8080
+      - REALM=Orchestration
+      - CLIENT_ID=service-directory-api
+      - CLIENT_SECRET=yourSecretHere
+      - REPOSITORY_API_URL=https://dlmstorebackend.idta.ds2.icelab.cloud/repository-api
+      - REPOSITORY_OWNER_ID=${REPOSITORY_OWNER_ID:-service-directory}
+      - REPOSITORY_API_KEY=${REPOSITORY_API_KEY}
+    ports:
+      - 2502:3002
+    networks:
+      - wasp
+    restart: unless-stopped
+
+networks:
+  wasp:
+    name: wasp

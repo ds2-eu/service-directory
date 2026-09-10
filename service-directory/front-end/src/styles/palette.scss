@@ -1,0 +1,16 @@
+@import 'named-colours';
+
+:root {
+  --primary: var(--color-primary) /* Overrides Bootstrap’s --primary */;
+  --text-color: var(--color-text);
+  --link-color: var(--colour-secondary);
+  --link-hover-color: var(--color-primary-darker);
+  //--visited-color: var(--indigo);
+  //--visited-hover-color: var(--indigo-darker);
+  --button-primary-color: var(--color-primary);
+  --button-primary-text-color: white;
+  --button-primary-hover-color: var(--color-primary-darker);
+  --list-item-current-background-color: var(--grey-lighter);
+  --list-item-hover-background-color: var(--grey-lightest);
+  --alert-warning-text-color: var(--yellow-darker);
+}

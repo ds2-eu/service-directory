@@ -1,0 +1,156 @@
+@import 'palette';
+@import 'bootstrap/scss/bootstrap';
+@import 'font-awesome';
+@import 'banner';
+
+main {
+  width: 75rem;
+  max-width: calc(100% - 2rem);
+  margin-top: 2.5rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  // Primary Heading
+  h1 {
+    font-size: 1.5em;
+    font-family: Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .h1-ds2-primary {
+    color: var(--color-primary);
+    //--ds2-color-primary-text-background: #ffffff;
+  }
+
+  h2 {
+    font-size: 1.25em;
+    font-family: Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  //Secondary Heading
+  h3 {
+    font-size: 0.875em;
+    font-family: Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+
+  //Paragraph
+  p {
+    font-family: Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 0.625em;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  .required-asterisk {
+    color: var(--red, red);
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  .modal-content {
+    text-align: center;
+  }
+
+  .modal-title {
+    flex-grow: 1;
+  }
+
+  .modal-content .btn-close {
+    align-self: flex-start;
+  }
+
+  .modal-body .buttons {
+    flex-direction: column;
+    margin-bottom: 0.25rem;
+  }
+
+  /* In case a very long word is in a non-URL property of a service. */
+  .non-url-text {
+    hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    word-break: break-word;
+  }
+
+  /* In case a very long word is in a URL.*/
+  .url {
+    word-break: break-word;
+  }
+
+  /* Bootstrap’s blue does not contrast well on white. */
+  /*
+  a:link:not(.btn) {
+    color: var(--link-color);
+  }
+
+  a:link:not(.btn):hover {
+    color: var(--link-hover-color);
+  }
+
+  
+  a:visited:not(.btn) {
+    color: var(--visited-color);
+  }
+
+  a:visited:not(.btn):hover {
+    color: var(--visited-hover-color);
+  }*/
+
+  .btn.btn-primary,
+  .btn.btn-outline-primary {
+    color: var(--button-primary-color);
+    border-color: var(--button-primary-color);
+  }
+
+  .btn.btn-primary {
+    background-color: var(--button-primary-color);
+    color: var(--button-primary-text-color);
+  }
+
+  .btn.btn-primary:hover,
+  .btn.btn-primary:focus,
+  .btn.btn-primary:active {
+    background-color: var(--button-primary-hover-color);
+  }
+
+  .btn.btn-outline-primary:hover,
+  .btn.btn-outline-primary:focus,
+  .btn.btn-outline-primary:active {
+    background-color: var(--button-primary-color);
+    color: var(--button-primary-text-color);
+  }
+
+  /* Bootstrap’s dark yellow doesn’t contrast well on pale yellow. */
+  .alert-warning {
+    color: var(--alert-warning-text-color);
+  }
+
+  /* Layout for homepage and Service Details page */
+  @media (min-width: 600px) {
+    .columns-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+  }
+}

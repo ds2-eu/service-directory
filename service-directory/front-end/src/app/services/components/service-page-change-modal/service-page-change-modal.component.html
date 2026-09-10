@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h2 class="modal-title">Unsaved changes</h2>
+
+  <button
+    class="btn btn-close"
+    type="button"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+
+<div class="modal-body">
+  <p>
+    You have unsaved changes to “<span class="non-url-text">{{
+      service.name
+    }}</span
+    >”.<br />Would you like to:
+  </p>
+
+  <div class="buttons">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="saveAndGoToAuthentication()"
+    >
+      Save and go to Authentication
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+      Continue editing
+    </button>
+  </div>
+</div>

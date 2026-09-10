@@ -1,0 +1,31 @@
+:host {
+
+  .buttons-container {
+    display: flex;
+  }
+
+}
+
+ .ice-logo img,
+  .company-logo img {
+    max-height: 2.5rem;
+  }
+
+  .application-info {
+    flex-grow: 1;
+    display: flex;
+    //flex-direction: row-reverse;
+    justify-content: space-between;
+    margin: 0 6px;
+    position: relative;
+  }
+
+  .application-title {
+    margin: 0;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    color: var(--color-primary);
+  }

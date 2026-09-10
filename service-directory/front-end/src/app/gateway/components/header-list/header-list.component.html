@@ -1,0 +1,54 @@
+<fieldset [formGroup]="frm">
+  <legend>Headers</legend>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="addRow()" title="Add header">
+            <span aria-hidden="true">+</span>
+          </button>
+        </td>
+        <th scope="col">Name</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container formArrayName="rows">
+        <ng-container *ngFor="let row of rows.controls; index as i">
+          <ng-container [formGroupName]="i">
+            <tr>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="deleteRow(i)"
+                  title="Delete header"
+                >
+                  <span aria-hidden="true">-</span>
+                </button>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="name"
+                  [class.is-invalid]="!getRow(i).get('name').valid"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="value"
+                  [class.is-invalid]="!getRow(i).get('value').valid"
+                />
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </tbody>
+  </table>
+</fieldset>

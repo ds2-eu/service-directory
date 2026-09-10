@@ -1,0 +1,77 @@
+<div>
+
+  <ng-container *ngIf="loading">
+    <p>Loading…</p>
+  </ng-container>
+
+  <ng-container *ngIf="errorFromBackendOnLoad">
+    <p *ngIf="errorFromBackendOnLoad" class="alert alert-danger" aria-live="polite">
+      {{ errorFromBackendOnLoad }}
+    </p>
+
+    <div class="buttons">
+      <a routerLink="{{ record?.id ? '/definitions/details/' + record?.id : '/' }}" class="btn btn-outline-danger">
+        Cancel
+      </a>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && !errorFromBackendOnLoad">
+
+    <form [formGroup]="editForm" (ngSubmit)="submitThenRedirect()">
+      <p><em>Fields marked with an asterisk are required.</em></p>
+
+      <div class="mb-3 row">
+        <label for="name" class="col-form-label col-sm-2">
+          Name <span class="required-asterisk">*</span>
+        </label>
+        <div class="col-sm-10">
+          <input type="text" id="name" [class.is-invalid]="shouldShowErrorFor('name')" formControlName="name"
+            pattern="\s*\S.*" class="form-control" />
+          <div class="invalid-feedback">
+            <p *ngIf="shouldShowErrorFor('name', 'required')">Required</p>
+
+            <p *ngIf="shouldShowErrorFor('name', 'pattern')">
+              Name must have characters that are not spaces.
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="mb-3 row">
+
+        <label for="txtValue" class="col-form-label col-sm-2">
+          Value <span class="required-asterisk">*</span>
+        </label>
+
+        <div class="col-sm-10">
+          <textarea id="txtValue" [class.is-invalid]="shouldShowErrorFor('value', 'required')" 
+            rows="10" formControlName="value" class="form-control">
+          </textarea>
+          <div class="invalid-feedback">Required.</div>
+        </div>
+      </div>
+
+
+      <div class="buttons">
+
+        <app-spin-button [working]="working" text="Save">
+        </app-spin-button>
+
+        <!--
+          If we had a Definition Details page (like we have a Service Details page),
+          the routerLink property might be "{{ record?.id ? '/definitions/details/' + record.id : '/' }}"
+          But we don’t, so Cancel just goes back to the list of common definitions.
+        -->
+        <a routerLink="/definitions" class="btn btn-outline-danger">
+          Cancel
+        </a>
+      </div>
+    </form>
+
+    <p *ngIf="errorFromBackendOnSave" class="alert alert-danger" aria-live="polite">
+      {{ errorFromBackendOnSave }}
+    </p>
+  </ng-container>
+</div>

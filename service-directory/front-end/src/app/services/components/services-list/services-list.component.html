@@ -1,0 +1,63 @@
+<div class="content-container">
+
+  <div class="service-list">
+
+    <h2>List of services</h2>
+
+    <p *ngIf="loading">Loading services…</p>
+
+    <p *ngIf="errorFromBackend && !isLocalhost" class="alert alert-danger" aria-live="polite">
+      Something went wrong in loading your services. Please try again later.
+    </p>
+
+    <p *ngIf="!loading && !errorFromBackend && services.length === 0">
+      There are no services.
+    </p>
+
+    <ng-container *ngIf="services.length > 0">
+      <p>Below are all the services in the directory.</p>
+
+      <ul class="list-group">
+        <li *ngFor="let service of services; trackBy: getServiceId"
+          class="list-group-item list-group-item-action list-group-item-light"
+          [attr.aria-current]="service._id === currentServiceId">
+          <ng-container *ngIf="service._id === currentServiceId; then current; else notCurrent"></ng-container>
+
+          <ng-template #current>
+            <span *ngIf="service.name?.trim(); else noName">{{ service.name }}</span>
+          </ng-template>
+
+          <ng-template #notCurrent>
+            <a *ngIf="service._id !== currentServiceId" routerLink="{{ './details/' + service._id }}"
+              class="non-url-text">
+              <ng-container *ngIf="service.name?.trim(); else noName">
+                {{ service.name }}
+              </ng-container>
+            </a>
+          </ng-template>
+
+          <ng-template #noName>
+            <em>(unnamed service)</em>
+          </ng-template>
+        </li>
+      </ul>
+    </ng-container>
+
+    <div *ngIf="!loading && !errorFromBackend" class="buttons">
+      <a routerLink="/services/edit/" class="btn btn-primary"> Add a service </a>
+      <a class="btn btn-primary"
+        (click)="toggleSort()">
+        Sort {{ sortAscending ? 'Z–A' : 'A–Z' }} </a>
+    </div>
+
+  </div>
+
+  <!--
+    <router-outlet> is used to display the “Selected service” pane.
+    The <div> wrapping it ensures that the presence/absence of that pane doesn’t change the page layout.
+  -->
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

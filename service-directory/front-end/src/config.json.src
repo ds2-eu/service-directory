@@ -1,0 +1,6 @@
+{
+    "apiEndpoint": "$API_ENDPOINT",
+    "gatewayEndpoint": "$GATEWAY_ENDPOINT",
+    "configEndpoint": "$CONFIG_ENDPOINT",
+    "configKey": "$CONFIG_KEY"
+}

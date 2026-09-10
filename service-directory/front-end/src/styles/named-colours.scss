@@ -1,0 +1,23 @@
+:root {
+  --blue: #0056b2 /* Overrides Bootstrap’s --blue */;
+  --blue-darker: #00438a;
+  --indigo: #531c91 /* Overrides Bootstrap’s --indigo */;
+  --indigo-darker: #3b1467;
+  --grey-lighter: #dcdcef;
+  --grey-lightest: #e5e5e5
+    /* The Bootstrap default for a hovered list item is background-color:#e5e5e5 but not as a variable. */;
+  --off-black: #212529
+    /* The Bootstrap default for text is color:#212529 but not as a variable. */;
+  --yellow-darker: #674d00;
+
+  //DS2 Colours 
+  /* DS2 Colours */
+	--color-primary: #128F8B;
+	--color-primary-background: #ffffff;
+	--color-text: #000;
+	--color-secondary: #24D4C6;
+	--color-secondary-background: #E0E0E0;
+	--color-error: #EA6B66;
+
+  --color-primary-darker: #0e6d6a;
+}

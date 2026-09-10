@@ -1,0 +1,54 @@
+version: '3.5'
+
+services:
+  service-directory-db:
+    image: mongo:3.6
+    hostname: service-directory-db
+    container_name: service-directory-db
+    volumes:
+      - service-directory-data:/data/db
+    networks:
+      - wasp
+    restart: always
+
+  service-directory-api:
+    # on test server — image: service-directory-api:latest
+    image: git.icelab.cloud/wasp/deployment/orchestration-test/service-directory-api:latest
+    hostname: service-directory-api
+    container_name: service-directory-api
+    environment:
+      - MONGODB_CONNECTION=mongodb://service-directory-db:27017/nest
+      - SERVER=http://localhost:2502
+      # on test server - SERVER=https://service-directory-api.orchestration-test.icelab.cloud
+    ports:
+      - 2502:3002
+    networks:
+      - wasp
+    depends_on:
+      - service-directory-db
+    restart: unless-stopped
+
+  service-directory-ui:
+    image: service-directory:latest
+    # on test server — image: git.icelab.cloud/wasp/deployment/orchestration-test/service-directory:latest
+    hostname: service-directory-ui
+    container_name: service-directory-ui
+    ports:
+      - 2503:80
+    depends_on:
+      - service-directory-api
+    networks:
+      - wasp
+    environment:
+      - API_ENDPOINT=http://localhost:2502
+      - GATEWAY_ENDPOINT=http://localhost:3000
+      # on test server - API_ENDPOINT=https://service-directory-api.orchestration-test.icelab.cloud
+      # on test server - GATEWAY_ENDPOINT=https://process-engine-gateway-api.orchestration-test.icelab.cloud
+
+volumes:
+  service-directory-data:
+    name: service-directory-data
+
+networks:
+  wasp:
+    name: wasp

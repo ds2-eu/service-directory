@@ -1,0 +1,61 @@
+<div>
+  <div class="row">
+    <div class="col">
+      <h2>List of security definitions</h2>
+
+      <p *ngIf="loading">Loading security definitions…</p>
+
+      <ng-container *ngIf="didBackendError">
+        <p class="alert alert-danger" aria-live="polite">
+          Something went wrong in loading your security definitions. Please try again later.
+        </p>
+        <p>
+          <a routerLink="/">Service Directory Home</a>
+        </p>
+      </ng-container>
+
+      <p *ngIf="!loading && !didBackendError && definitions.length === 0">
+        There are no security definitions.
+      </p>
+
+      <ul *ngIf="!loading && !didBackendError" class="buttons">
+        <li>
+          <a class="btn btn-primary" routerLink="./add">Add a security definition</a>
+        </li>
+        <li>
+          <a routerLink="/" class="btn btn-outline-dark">Service Directory Home</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr *ngIf="!loading && !didBackendError && definitions.length" />
+
+  <ng-container
+    *ngFor="let definition of definitions; trackBy: getDefinitionId"
+  >
+    <article
+      class="row row-definition align-items-center"
+      [attr.aria-labelledby]="definition.id"
+    >
+      <div class="col button-col">
+        <a type="button" class="btn btn-primary btn-sm" routerLink="{{ './' + definition.id }}">Edit</a>
+      </div>
+
+      <div class="col text-col">
+        <h3 class="non-url-text" id="{{ definition.id }}">
+          {{ definition.name }}
+        </h3>
+        <small class="url">{{ definition.url }}</small>
+      </div>
+
+      <div class="col badge-col">
+        <div class="badge badge-primary">
+          {{ definition.authType }}
+        </div>
+      </div>
+    </article>
+
+    <hr />
+  </ng-container>
+</div>

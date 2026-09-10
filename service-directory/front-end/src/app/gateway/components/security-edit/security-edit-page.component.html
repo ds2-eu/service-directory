@@ -1,0 +1,321 @@
+<div>
+
+  <ng-container *ngIf="isLoading">
+    <p>Loading…</p>
+  </ng-container>
+
+  <ng-container *ngIf="errorFromBackendOnLoad">
+    <p
+      *ngIf="errorFromBackendOnLoad"
+      class="alert alert-danger"
+      aria-live="polite"
+    >
+      {{ errorFromBackendOnLoad }}
+    </p>
+
+    <div class="buttons">
+      <button (click)="goBack()" class="btn btn-outline-dark">Back</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading && !errorFromBackendOnLoad">
+    <form [formGroup]="formMain">
+      <div>
+        <p><em>Fields marked with an asterisk are required.</em></p>
+        <p>
+          <em>“Name” is a name for this security definition; it can be the same as the service.</em>
+        </p>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="txtName" class="col-form-label col-sm-2">
+          Name <span class="required-asterisk">*</span>
+        </label>
+
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="txtName"
+            formControlName="name"
+            [class.is-invalid]="shouldShowErrorFor('name')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="shouldShowErrorFor('name', 'required')">Name is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="txtUrl" class="col-form-label col-sm-2">
+          Service URL <span class="required-asterisk">*</span>
+        </label>
+
+        <div class="col-sm-10">
+          <input
+            type="text"
+            class="form-control"
+            id="txtUrl"
+            formControlName="url"
+            pattern="https?://.+"
+            [class.is-invalid]="shouldShowErrorFor('url')"
+          />
+          <div class="invalid-feedback">
+            <span *ngIf="shouldShowErrorFor('url', 'required')">Service URL is required.</span>
+            <span *ngIf="shouldShowErrorFor('url', 'pattern')">Service URL must begin with “http://” or
+              “https://”.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="authType" class="col-form-label col-sm-2">
+          Authorisation type <span class="required-asterisk">*</span>
+        </label>
+
+        <div class="col-sm-10">
+          <select
+            class="form-control"
+            id="authType"
+            formControlName="authType"
+            (change)="authTypeChanged()"
+            [class.is-invalid]="shouldShowErrorFor('authType')"
+          >
+            <option value="Basic">Basic</option>
+            <option value="OAuth2">OAuth2</option>
+            <option value="FixedHeaders">Fixed headers</option>
+          </select>
+          <div class="invalid-feedback">
+            <span *ngIf="shouldShowErrorFor('authType', 'required')">Authorisation type is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <ng-container
+        formGroupName="authInfo"
+        [ngSwitch]="formMain.get('authType').value"
+      >
+        <ng-container *ngSwitchCase="'Basic'">
+          <div class="mb-3 row">
+            <label for="txtBasicUsername" class="col-form-label col-sm-2">
+              User name <span class="required-asterisk">*</span>
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtBasicUsername"
+                formControlName="username"
+                [class.is-invalid]="shouldShowErrorFor('username')"
+              />
+              <div class="invalid-feedback">
+                <span *ngIf="shouldShowErrorFor('username', 'required')">
+                  User name is required.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtBasicPassword" class="col-form-label col-sm-2">
+              Password <span class="required-asterisk">*</span>
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtBasicPassword"
+                formControlName="password"
+                [class.is-invalid]="shouldShowErrorFor('password')"
+              />
+              <div class="invalid-feedback">
+                <span *ngIf="shouldShowErrorFor('password', 'required')">Password is required.</span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'OAuth2'">
+          <div class="mb-3 row">
+            <label for="txtClientId" class="col-form-label col-sm-2">
+              Client ID <span class="required-asterisk">*</span>
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtClientId"
+                formControlName="clientId"
+                [class.is-invalid]="shouldShowErrorFor('clientId')"
+              />
+              <div class="invalid-feedback">
+                <span *ngIf="shouldShowErrorFor('clientId', 'required')">Client ID is required.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtClientField" class="col-form-label col-sm-2">
+              Client field name
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtClientField"
+                formControlName="clientField"
+                placeholder="Defaults to client_id"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtClientSecret" class="col-form-label col-sm-2">
+              Client secret <span class="required-asterisk">*</span>
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtClientSecret"
+                formControlName="clientSecret"
+                [class.is-invalid]="shouldShowErrorFor('clientSecret')"
+              />
+              <div class="invalid-feedback">
+                <span *ngIf="shouldShowErrorFor('clientSecret', 'required')">Client secret is required.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtSecretField" class="col-form-label col-sm-2">
+              Secret field name
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtSecretField"
+                formControlName="secretField"
+                placeholder="Defaults to client_secret"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtAuthUrl" class="col-form-label col-sm-2">
+              Authorisation URL <span class="required-asterisk">*</span>
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtAuthUrl"
+                formControlName="authUrl"
+                pattern="https?://.+"
+                [class.is-invalid]="shouldShowErrorFor('authUrl')"
+              />
+              <div class="invalid-feedback">
+                <span *ngIf="shouldShowErrorFor('authUrl', 'required')">Authorisation URL must begin with “http://” or
+                  “https://”.</span>
+                <span *ngIf="shouldShowErrorFor('authUrl', 'pattern')">Please provide a valid URL for Authorisation
+                  URL.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtGrantType" class="col-form-label col-sm-2">
+              Grant Type
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtGrantType"
+                placeholder="Defaults to client_credentials"
+                formControlName="grantType"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtAudience" class="col-form-label col-sm-2">
+              Audience
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtAudience"
+                formControlName="audience"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtAudience" class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="omitBearerPrefix"
+                  id="chkOmitBearerPrefix"
+                />
+                <label class="form-check-label" for="chkOmitBearerPrefix">
+                  Omit Bearer prefix
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="txtCustomBearerHeader" class="col-form-label col-sm-2">
+              Custom Bearer header
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="txtCustomBearerHeader"
+                formControlName="customBearerHeader"
+              />
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <app-header-list
+        [headers]="headers"
+        (changed)="headersChanged($event)"
+      ></app-header-list>
+
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary" (click)="submit()">
+          Save
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="testService()"
+        >
+          Test
+        </button>
+
+        <button type="button" class="btn btn-outline-danger" (click)="goBack()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </ng-container>
+
+  <p
+    *ngIf="errorFromBackendOnSave"
+    class="alert alert-danger"
+    aria-live="polite"
+  >
+    {{ errorFromBackendOnSave }}
+  </p>
+</div>

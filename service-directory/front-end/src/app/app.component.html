@@ -1,0 +1,15 @@
+<portal-header
+  *ngIf="usePortal"
+  [modules]="modules"
+  (loggedIn)="onLoggedIn($event)"
+></portal-header>
+ <div class="container-fluid container-no-gutter">
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loader-container">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Main content -->
+  <router-outlet *ngIf="!isLoading && (!usePortal || loggedIn)"></router-outlet>
+</div>

@@ -1,0 +1,29 @@
+stages:
+  - build
+  - publish
+
+compile:
+  stage: build
+  image: node:14-alpine
+  tags:
+  - wasp-service-directory
+  script:
+  - npm cache verify
+  - npm install
+  - npm link @angular/cli@14.0.6
+  - ng build --output-hashing=all --configuration production
+  - cp ./site.conf ./dist
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/dist
+  interruptible: true
+
+publish:
+  image: docker:dind
+  stage: publish
+  tags:
+  - wasp-service-directory
+  script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY/$CI_PROJECT_PATH
+  - docker build . -t $CI_REGISTRY/$CI_PROJECT_PATH/$CI_REGISTRY_IMAGE
+  - docker push $CI_REGISTRY/$CI_PROJECT_PATH/$CI_REGISTRY_IMAGE

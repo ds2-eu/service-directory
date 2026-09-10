@@ -1,0 +1,33 @@
+:host {
+
+  .content-container {
+    display: grid;
+    gap: 0 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+
+  li {
+    padding: 0;
+  }
+  
+  /* An alternative would be to use Bootstrap’s .active class,
+  if we prefer white text on a bright blue that doesn’t contrast well. */
+  li.list-group-item[aria-current='true'] {
+    background-color: var(--list-item-current-background-color);
+    border-color: var(--list-item-current-background-color);
+    color: var(--text-color);
+  }
+  
+  li > :first-child {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+  }
+  
+  .btn {
+    margin-bottom: 1.5rem;
+  }
+  
+
+}
+

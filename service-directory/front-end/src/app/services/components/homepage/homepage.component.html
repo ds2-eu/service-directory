@@ -1,0 +1,71 @@
+
+<div class="container" *ng-if="isLocalhost">
+  <nav class="navbar">
+
+    <a class="navbar-brand" href="/">
+      <picture class="ice-logo">
+        
+        <img src="https://pbs.twimg.com/profile_images/1745867511558459393/XR0Gapw9_400x400.jpg" alt="DS2 Logo">
+      </picture>
+    </a>
+
+    <div class="application-info">
+      
+
+      <p class="application-title">Service Directory</p>
+
+    </div>
+
+    <div class="align-right">
+      <!-- <dash-button keycloak-uri="https://keycloak.orchestration-test.icelab.cloud/" realm="orchestration" client-id="orchestration-ui"></dash-button> -->
+      <dash-button></dash-button>
+    </div>
+  </nav>
+</div>
+
+
+<div>
+  <div class="container-fluid container-no-gutter no-side-margins">
+
+    <div class="banner-container">
+      <div class="banner-main">
+  
+        <div class="banner-nav">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" [routerLink]="['/']" title="Go to Process List">Service Directory</a>
+            <span class="navbar-divider">&nbsp;</span>
+      
+            <ul *ngIf="isServicesRoute()" class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" routerLink="{{ '/services' }}" title="View services" aria-current="page">Services</a>
+              </li>
+            </ul>
+
+            <ul *ngIf="isDefinitionsRoute()" class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" routerLink="{{ '/definitions' }}" title="View definitions" aria-current="page">Common Definitions</a>
+              </li>
+            </ul>
+            
+          </nav>
+        </div>
+  
+      </div>
+    </div>
+  
+  </div>
+</div>
+
+<main class="container">
+  <!--<h1>{{ title.getTitle() || 'Service Directory' }}</h1>-->
+
+  <div class="buttons-container">
+    <a class="btn btn-primary me-2" [routerLink]="['/services']">Services</a>
+    <a class="btn btn-primary" [routerLink]="['/definitions']">Definitions</a>
+  </div>
+
+  <hr/>
+
+  <router-outlet></router-outlet>
+
+</main>

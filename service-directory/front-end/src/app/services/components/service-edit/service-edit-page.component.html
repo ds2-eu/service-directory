@@ -1,0 +1,208 @@
+<div>
+
+  <ng-container *ngIf="loading">
+    <p>Loading…</p>
+  </ng-container>
+
+  <ng-container *ngIf="errorFromBackendOnLoad">
+    <p
+      *ngIf="errorFromBackendOnLoad"
+      class="alert alert-danger"
+      aria-live="polite"
+    >
+      {{ errorFromBackendOnLoad }}
+    </p>
+
+    <div class="buttons">
+      <a
+        routerLink="{{ service?._id ? '/services/details/' + service?._id : '/' }}"
+        class="btn btn-outline-danger"
+      >
+        Cancel
+      </a>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && !errorFromBackendOnLoad">
+    <form [formGroup]="editForm" (ngSubmit)="submitThenRedirect()">
+      <p><em>Fields marked with an asterisk are required.</em></p>
+
+      <div class="mb-3 row">
+        <label for="name" class="col-form-label col-sm-2">
+          Name <span class="required-asterisk">*</span>
+        </label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            id="name"
+            [class.is-invalid]="shouldShowErrorFor('name')"
+            formControlName="name"
+            pattern="\s*\S.*"
+            class="form-control"
+          />
+          <div class="invalid-feedback">
+            <p *ngIf="shouldShowErrorFor('name', 'required')">Required</p>
+
+            <p *ngIf="shouldShowErrorFor('name', 'pattern')">
+              Name must have characters that are not spaces.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="description" class="col-form-label col-sm-2">
+          Description
+        </label>
+        <div class="col-sm-10">
+          <input
+            type="text"
+            id="description"
+            formControlName="description"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <div class="col-sm-10 offset-sm-2">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              formControlName="hideFromOrchestration"
+              type="checkbox"
+              id="chkHideFromOrchestration"
+            />
+            <label class="form-check-label" for="chkHideFromOrchestration">
+              Hide from Orchestration
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <div class="col-sm-10 offset-sm-2">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              formControlName="hasOpenApiEndpoint"
+              type="checkbox"
+              id="chkHasOpenApiEndpoint"
+            />
+            <label class="form-check-label" for="chkHasOpenApiEndpoint">
+              Has OpenAPI endpoint
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <ng-container [ngSwitch]="editForm.get('hasOpenApiEndpoint').value">
+        <ng-container *ngSwitchCase="1">
+          <div class="mb-3 row">
+            <label for="openApiYamlUrl" class="col-form-label col-sm-2">
+              OpenAPI Yaml URL <span class="required-asterisk">*</span>
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="url"
+                [class.is-invalid]="shouldShowErrorFor('openApiYamlEndpoint')"
+                pattern="https?://.+"
+                id="openApiYamlUrl"
+                formControlName="openApiYamlEndpoint"
+                class="form-control"
+              />
+              <div class="invalid-feedback">
+                <p
+                  *ngIf="shouldShowErrorFor('openApiYamlEndpoint', 'required')"
+                >
+                  Required
+                </p>
+
+                <p *ngIf="shouldShowErrorFor('openApiYamlEndpoint', 'pattern')">
+                  OpenAPI Yaml URL must begin with “http://” or “https://” and
+                  point to an OpenAPI specification file.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="swaggerUiUrl" class="col-form-label col-sm-2">
+              Swagger UI URL
+            </label>
+            <div class="col-sm-10">
+              <input
+                type="url"
+                pattern="https?://.+"
+                id="swaggerUiUrl"
+                formControlName="openApiUiEndpoint"
+                class="form-control"
+              />
+
+              <div class="invalid-feedback">
+                <p
+                  *ngIf="shouldShowErrorFor('openApiUiEndpoint', 'pattern')"
+                  class="alert alert-warning"
+                >
+                  Swagger UI URL must be a valid URL or be blank.
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+
+          <div class="mb-3 row" *ngIf="!editForm.get('hasOpenApiEndpoint').value">
+            <label for="openApiDefinition" class="col-form-label col-sm-2"> OpenAPI Definition <span
+                class="required-asterisk">*</span></label>
+            <div class="col-sm-10">
+              <textarea
+                id="openApiDefinition"
+                [class.is-invalid]="
+                  shouldShowErrorFor('openApiDefinition', 'required')
+                "
+                rows="10"
+                formControlName="openApiDefinition"
+                class="form-control"
+              ></textarea>
+              <div class="invalid-feedback">Required.</div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div class="buttons">
+
+        <app-spin-button [working]="working" text="Save">
+        </app-spin-button>
+
+        <!-- This a standard <a href> element because an Angular <a routerLink> element’s
+          behaviour cannot be overridden by a click-handler. -->
+        <a
+          *ngIf="service?._id"
+          href="/gateway/service/{{ service._id }}"
+          (click)="onAuthenticationLinkClick($event)"
+          class="btn btn-outline-primary"
+        >
+          Authentication
+        </a>
+
+        <a
+          routerLink="{{ service?._id ? '/services/details/' + service?._id : '/' }}"
+          class="btn btn-outline-danger"
+        >
+          Cancel
+        </a>
+      </div>
+    </form>
+
+    <p
+      *ngIf="errorFromBackendOnSave"
+      class="alert alert-danger"
+      aria-live="polite"
+    >
+      {{ errorFromBackendOnSave }}
+    </p>
+  </ng-container>
+</div>

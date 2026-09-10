@@ -1,0 +1,34 @@
+<h2>List of definitions</h2>
+
+<p *ngIf="loading">Loading definitions…</p>
+
+<p *ngIf="errorFromBackend" class="alert alert-danger" aria-live="polite">
+  Something went wrong in loading your definitions. Please try again later.
+</p>
+
+<ng-container *ngIf="records$ | async as records">
+
+  <p *ngIf="!loading && !errorFromBackend && records.length === 0">
+    There are no definitions.
+  </p>
+
+  <ng-container *ngIf="records.length > 0">
+    <p>Below are all the definitions in the directory.</p>
+
+    <ul class="list-group">
+      <li *ngFor="let record of records; trackBy: getRecordId"
+        class="list-group-item list-group-item-action list-group-item-light">
+
+        <a routerLink="{{ '/definitions/edit/' + record.id }}" class="non-url-text">
+          {{ record.name }}
+        </a>
+
+      </li>
+    </ul>
+  </ng-container>
+
+</ng-container>
+
+<div *ngIf="!loading && !errorFromBackend" class="buttons">
+  <a routerLink="/definitions/edit/" class="btn btn-primary"> Add a definition </a>
+</div>

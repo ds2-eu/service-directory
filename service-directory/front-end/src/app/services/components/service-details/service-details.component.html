@@ -1,0 +1,90 @@
+<h2>Selected service</h2>
+
+<p *ngIf="loading">Loading service…</p>
+
+<p *ngIf="errorFromBackend" class="alert alert-danger" aria-live="polite">
+  Something went wrong in loading your service. Please try again later.
+</p>
+
+<p *ngIf="!loading && !errorFromBackend && !service">
+  The selected service does not exist.
+  <a routerLink="/">Close details</a>
+</p>
+
+<ng-container *ngIf="!loading && service">
+  <ul class="buttons">
+    <li>
+      <a
+        routerLink="{{ '../../edit/' + service?._id }}"
+        class="btn btn-outline-primary"
+      >
+        Edit
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="{{ '/gateway/service/' + service?._id }}"
+        class="btn btn-outline-primary"
+      >
+        Authentication
+      </a>
+    </li>
+    <li>
+      <button (click)="openModal()" class="btn btn-outline-danger">
+        Delete
+      </button>
+    </li>
+    <li><a routerLink="/" class="btn btn-outline-dark">Close details</a></li>
+  </ul>
+
+  <dl>
+    <dt>Name</dt>
+    <dd *ngIf="service.name.trim()" class="non-url-text">
+      {{ service.name }}
+    </dd>
+    <dd *ngIf="!service.name.trim()">
+      <em>(no name given)</em>
+    </dd>
+
+    <dt>Description</dt>
+    <dd *ngIf="service.description.trim()" class="non-url-text">
+      {{ service.description }}
+    </dd>
+    <dd *ngIf="!service.description.trim()">
+      <em>(no description given)</em>
+    </dd>
+
+    <dt>URL for the OpenAPI Yaml</dt>
+    <dd *ngIf="service.openApiYamlEndpoint.trim()">
+      <a href="{{ service.openApiYamlEndpoint }}" class="url">
+        {{ service.openApiYamlEndpoint }}
+      </a>
+    </dd>
+    <dd *ngIf="!service.openApiYamlEndpoint.trim()">
+      <em>(no OpenAPI URL given)</em>
+    </dd>
+
+    <dt>URL for the Swagger UI</dt>
+    <dd *ngIf="service.openApiUiEndpoint.trim()">
+      <a href="{{ service.openApiUiEndpoint }}" class="url">
+        {{ service.openApiUiEndpoint }}
+      </a>
+    </dd>
+    <dd *ngIf="!service.openApiUiEndpoint.trim()">
+      <em>(no Swagger URL given)</em>
+    </dd>
+
+    <dt>Authentication</dt>
+    <ng-container [ngSwitch]="authType">
+      <dd *ngSwitchCase="'loading'">
+        <em>(loading…)</em>
+      </dd>
+      <dd *ngSwitchCase="'not found'">
+        <em>(no authentication given)</em>
+      </dd>
+      <dd *ngSwitchDefault>
+        {{ authType }}
+      </dd>
+    </ng-container>
+  </dl>
+</ng-container>

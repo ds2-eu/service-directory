@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h2 class="modal-title">Test the service</h2>
+
+  <button
+    class="btn btn-close"
+    type="button"
+    aria-label="Close"
+    (click)="dismiss()"
+  ></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="frmTest">
+    <label for="txtUrl">URL</label>
+    <input type="text" class="form-control" id="txtUrl" formControlName="url" />
+
+    <label for="txtMethod">Method</label>
+    <input
+      type="text"
+      class="form-control"
+      id="txtMethod"
+      formControlName="method"
+    />
+
+    <div class="buttons">
+      <button
+        class="btn btn-success"
+        type="submit"
+        (click)="testService()"
+        [disabled]="isBusy"
+      >
+        <i class="fa fa-spin fa-refresh" *ngIf="isBusy"></i>
+        Get response
+      </button>
+    </div>
+  </form>
+
+  <hr />
+
+  <h3>Response</h3>
+  <textarea
+    class="form-control"
+    rows="10"
+    [value]="response"
+    readonly
+    disabled
+    aria-live="polite"
+  >
+  </textarea>
+</div>

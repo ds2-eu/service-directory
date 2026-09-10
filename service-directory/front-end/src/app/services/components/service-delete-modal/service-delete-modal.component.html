@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h2 class="modal-title">Delete the service</h2>
+
+  <button
+    class="btn btn-close"
+    type="button"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+
+<div class="modal-body">
+  <ng-container *ngIf="service && !errorFromBackendOnDelete">
+    <p>
+      Are you sure you want to delete “<span class="non-url-text">{{ service?.name }}</span>”?
+    </p>
+
+    <form [formGroup]="deleteForm" (ngSubmit)="onSubmit()" class="buttons">
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  </ng-container>
+
+  <ng-container *ngIf="errorFromBackendOnDelete">
+    <p class="alert alert-danger" aria-live="polite">
+      Something went wrong in deleting your service. Please try again later.
+    </p>
+  </ng-container>
+</div>
