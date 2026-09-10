@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: {{ .Release.Name }}-servicedirectory
+  namespace: {{ .Release.Namespace }}
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: ./charts/ds2modulebase
+      version: '1.0.0'
+      sourceRef:
+        kind: GitRepository
+        name: ds2charts
+        namespace: ds2
+      interval: 10m
+  values:
+    app:
+      name: servicedirectory
+      port: 80
+      env: true
+    image:
+      name: servicedirectory
+      tag: "1.0.0"
+    service:
+      port: 80
+    {{- toYaml .Values.servicedirectory | nindent 4 }}

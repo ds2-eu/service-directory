@@ -1,0 +1,25 @@
+# Replace "exampledomain" with the organisation-specific domain.
+
+servicedirectory:
+  config:
+    API_ENDPOINT: "https://servicedirectoryapi.exampledomain.com"
+    GATEWAY_ENDPOINT: "http://orchestrationprocessenginegatewayapi.exampledomain.com"
+    CONFIG_ENDPOINT: "https://orchestrationconfigapi.exampledomain.com"
+
+servicedirectoryapi:
+  config:
+    # Keycloak
+    SECURITY_ENABLED: 'true'
+    AUTH_URL: ""
+    REALM: "ds2"
+    CLIENT_ID: "orchestration-api"
+    CLIENT_SECRET: ""
+
+    # Service Directory API
+    PORT: "3002"
+    SERVER: "https://servicedirectoryapi.exampledomain.com"
+
+    # Objects Repository
+    REPOSITORY_API_URL: "https://dlmstorebackend.idta.ds2.icelab.cloud/repository-api"
+    REPOSITORY_OWNER_ID: "service-directory"
+    REPOSITORY_API_KEY: ""
