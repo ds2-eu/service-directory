@@ -7,7 +7,7 @@ spec:
   interval: 10m
   chart:
     spec:
-      chart: ./charts/ds2modulebase
+      chart: ./charts/ds2modulebase3
       version: '1.0.0'
       sourceRef:
         kind: GitRepository
@@ -15,6 +15,8 @@ spec:
         namespace: ds2
       interval: 10m
   values:
+    module:
+      name: {{ .Release.Name }}
     app:
       name: servicedirectory
       port: 80
