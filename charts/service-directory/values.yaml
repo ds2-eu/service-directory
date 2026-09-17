@@ -3,17 +3,11 @@
 servicedirectory:
   config:
     API_ENDPOINT: "https://servicedirectoryapi.exampledomain.com"
-    GATEWAY_ENDPOINT: "http://orchestrationprocessenginegatewayapi.exampledomain.com"
-    CONFIG_ENDPOINT: "https://orchestrationconfigapi.exampledomain.com"
 
 servicedirectoryapi:
   config:
-    # Keycloak
-    SECURITY_ENABLED: 'true'
-    AUTH_URL: ""
-    REALM: "ds2"
-    CLIENT_ID: "orchestration-api"
-    CLIENT_SECRET: ""
+    # Authentication
+    SECURITY_ENABLED: 'false'
 
     # Service Directory API
     PORT: "3002"

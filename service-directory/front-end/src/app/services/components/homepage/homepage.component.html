@@ -1,5 +1,5 @@
 
-<div class="container" *ng-if="isLocalhost">
+<div class="container">
   <nav class="navbar">
 
     <a class="navbar-brand" href="/">
@@ -17,8 +17,14 @@
     </div>
 
     <div class="align-right">
-      <!-- <dash-button keycloak-uri="https://keycloak.orchestration-test.icelab.cloud/" realm="orchestration" client-id="orchestration-ui"></dash-button> -->
-      <dash-button></dash-button>
+      <dash-button
+        keycloak-uri="https://keycloak.ds2.icelab.cloud"
+        realm="ds2"
+        client-id="dashbtn"
+        portal-api-url="https://portal-api.ds2.icelab.cloud"
+        auth-method="login-required"
+        show-post-login-text="false">
+      </dash-button>
     </div>
   </nav>
 </div>

@@ -7,7 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { PortalHeaderModule } from 'ds2-orchestration-portal-header';
+//import { PortalHeaderModule } from 'ds2-orchestration-portal-header';
 //import { PortalHeaderModule } from 'ice-orchestration-portal-header';
 import { SpinButtonComponent } from './spin-button/spin-button.component';
 
@@ -29,7 +29,6 @@ import { SpinButtonComponent } from './spin-button/spin-button.component';
     ReactiveFormsModule,
     ModalModule,
     ToastrModule,
-    PortalHeaderModule,
     SpinButtonComponent
   ],
 })

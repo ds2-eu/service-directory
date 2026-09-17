@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AuthService } from 'ds2-orchestration-portal-header';
+//import { AuthService } from 'ds2-orchestration-portal-header';
 //import { AuthService } from 'ice-orchestration-portal-header';
 
 import { AppComponent } from './app.component';
@@ -28,7 +28,7 @@ import { DefinitionsModule } from './definitions';
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
-      deps: [ConfigService, AuthService],
+      deps: [ConfigService],
       multi: true,
     },
   ],
@@ -37,16 +37,6 @@ import { DefinitionsModule } from './definitions';
 })
 export class AppModule {}
 
-export function initApp(config: ConfigService, auth: AuthService) {
-  return () => {
-    return config.load().then(() => {
-      //if no security set then skip auth initialization
-      const cfg = config.config;
-      if (!cfg.portalConfig?.usePortal || !cfg.portalConfig?.security) {
-        return Promise.resolve();
-      }
-
-      return auth.initialize(cfg.portalConfig.security);
-    });
-  };
+export function initApp(config: ConfigService) {
+  return () => config.load();
 }
