@@ -15,8 +15,8 @@ $localPath = 'informationcatalyst'
 $gitlabPath = 'git.icelab.cloud/wasp/deployment'
 $ds2Charts = 'ghcr.io/ds2-eu/ds2charts'
 
-$imageTagDefault = 'service-directory:latest'
-$imageTagDs2 = 'service-directory:1.0.0'
+$imageTagDefault = 'servicedirectory:latest'
+$imageTagDs2 = 'servicedirectory:1.0.0'
 $result = $host.ui.PromptForChoice($title, $message, $options, 0)
 
 switch ($result) {
